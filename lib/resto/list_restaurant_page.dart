@@ -40,23 +40,6 @@ class ListRestaurantPage extends StatelessWidget {
     );
   }
 
-  Widget _restaurantRating(BuildContext context, num rating) {
-    return Container(
-        child: Row(
-      children: <Widget>[
-        Icon(
-          Icons.star_rate,
-          color: Colors.amber,
-        ),
-        Text(
-          "$rating",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        )
-      ],
-    ));
-  }
-
   Widget _imageWithRating(BuildContext context, RestaurantModel data) {
     return Stack(
       children: <Widget>[

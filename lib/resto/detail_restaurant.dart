@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/data/detail_merchant_repository.dart';
+import 'package:restaurant_app/helper/restaurant_constant.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
 
 class DetailRestaurant extends StatelessWidget {
   static const routeName = '/resto_detail';
-  final RestaurantModel restaurantData;
+  final String merchantId;
+  final MerchantDetailRepository repository = MerchantDetailRepository();
 
-  const DetailRestaurant(this.restaurantData);
+  DetailRestaurant({Key? key, required this.merchantId});
 
   @override
   Widget build(BuildContext context) {
@@ -34,61 +37,74 @@ class DetailRestaurant extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                    flex: 6,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          restaurantData.name,
-                          maxLines: 1,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
-                        ),
-                        Text(
-                          restaurantData.description,
-                          maxLines: 2,
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 10),
-                        )
-                      ],
-                    )),
-                Expanded(
-                    flex: 1,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          restaurantData.imageUrl,
-                          width: 20,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        )))
-              ],
-            ),
-            SizedBox(height: 8),
-            Container(
-              child: _restaurantRating(context, restaurantData.rating),
-            ),
-            SizedBox(height: 24),
-            Expanded(child: _buildRecommendedMenu(context, restaurantData)),
-          ],
-        )
+      body: FutureBuilder<RestaurantModelV2> (
+        future: repository.getMerchantDetail(merchantId),
+        builder: (BuildContext context, AsyncSnapshot<RestaurantModelV2> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Snapshot ${snapshot.error}");
+          } else if (snapshot.hasData ) {
+            final restaurantData = snapshot.data!;
+
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Expanded(
+                          flex: 6,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                restaurantData.name,
+                                maxLines: 1,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                ),
+                              ),
+                              Text(
+                                restaurantData.description,
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10),
+                              )
+                            ],
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                RestaurantConstant.imageBaseUrl + restaurantData.imageUrl,
+                                width: 20,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              )))
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    child: _restaurantRating(context, restaurantData.rating),
+                  ),
+                  SizedBox(height: 24),
+                  Expanded(
+                      child: _buildRecommendedMenu(context, restaurantData)
+                  ),
+                ],
+              ),
+            );
+          }
+          return const CircularProgressIndicator();
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.red,
@@ -99,7 +115,7 @@ class DetailRestaurant extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendedMenu(BuildContext context, RestaurantModel data) {
+  Widget _buildRecommendedMenu(BuildContext context, RestaurantModelV2 data) {
     return GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 5,
@@ -139,8 +155,6 @@ class DetailRestaurant extends StatelessWidget {
 
   Widget _getGridMenuItem(BuildContext context, String food) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
             flex: 6,

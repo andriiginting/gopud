@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/data/resto_repository.dart';
+import 'package:restaurant_app/helper/restaurant_constant.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
 import 'package:restaurant_app/resto/detail_restaurant.dart';
 
 class ListRestaurantPage extends StatelessWidget {
   static const routeName = '/resto_list';
+  final RestoRepository repository = RestoRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +22,19 @@ class ListRestaurantPage extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.black54,
           )),
-      body: FutureBuilder<String>(
-        future:
-            DefaultAssetBundle.of(context).loadString('assets/restaurant.json'),
-        builder: (context, snapshot) {
+      body: FutureBuilder<List<RestaurantModel>>(
+        future: repository.getListRestaurant(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<RestaurantModel>> snapshot) {
           if (snapshot.hasError) {
             return Text("Snapshot ${snapshot.error}");
           } else if (snapshot.hasData) {
-            final List<RestaurantModel> data = mapData(snapshot.data);
+            List<RestaurantModel>? data = snapshot.data;
             return ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: data.length,
+                itemCount: data?.length,
                 itemBuilder: (context, index) {
-                  return _buildRestaurantItem(context, data[index]);
+                  return _buildRestaurantItem(context, data![index]);
                 });
           }
           return const CircularProgressIndicator();
@@ -46,7 +49,7 @@ class ListRestaurantPage extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.network(
-              data.imageUrl,
+              RestaurantConstant.imageBaseUrl + data.imageUrl,
               width: 100,
               height: 500,
               fit: BoxFit.cover,
@@ -70,8 +73,10 @@ class ListRestaurantPage extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       onTap: () {
-        Navigator.pushNamed(context, DetailRestaurant.routeName,
-            arguments: data);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailRestaurant(merchantId: data.id)));
       },
     );
   }

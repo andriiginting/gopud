@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/model/restaurant_model.dart';
-import 'package:restaurant_app/resto/detail_restaurant.dart';
 import 'package:restaurant_app/resto/list_restaurant_page.dart';
 
 void main() {

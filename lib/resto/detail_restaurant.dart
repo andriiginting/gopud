@@ -16,6 +16,7 @@ class DetailRestaurant extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.black54,
         ),
@@ -190,6 +191,27 @@ class DetailRestaurant extends StatelessWidget {
             flex: 1,
             child: Text(food,
                 style: TextStyle(fontWeight: FontWeight.bold), maxLines: 1)),
+        TextButton(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Text('Add',
+                style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 14
+                )),
+          ),
+          style: TextButton.styleFrom(
+            primary: Colors.green,
+            onSurface: Colors.yellow,
+            fixedSize: const Size.fromWidth(double.maxFinite),
+            side: BorderSide(color: Colors.green),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+          ),
+          onPressed: () {
+            print('Pressed');
+          },
+        ),
       ],
     );
   }

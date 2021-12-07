@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/detail_merchant_repository.dart';
-import 'package:restaurant_app/helper/restaurant_constant.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
+
 import 'detail_restaurant_header.dart';
 import 'detail_restaurant_voucher_header.dart';
 
@@ -29,7 +29,36 @@ class DetailRestaurant extends StatelessWidget {
             color: Colors.black54,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                backgroundColor: Colors.white,
+                builder: (context) {
+                  return Wrap(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.phone_callback),
+                        title: Text('Whatsapp'),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.copy),
+                        title: Text('Copy Link'),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.more_horiz),
+                        title: Text('More'),
+                        onTap: () {},
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
             icon: const Icon(Icons.share),
             color: Colors.black54,
           ),
@@ -40,12 +69,13 @@ class DetailRestaurant extends StatelessWidget {
           )
         ],
       ),
-      body: FutureBuilder<RestaurantModelV2> (
+      body: FutureBuilder<RestaurantModelV2>(
         future: repository.getMerchantDetail(merchantId),
-        builder: (BuildContext context, AsyncSnapshot<RestaurantModelV2> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<RestaurantModelV2> snapshot) {
           if (snapshot.hasError) {
             return Text("Snapshot ${snapshot.error}");
-          } else if (snapshot.hasData ) {
+          } else if (snapshot.hasData) {
             final restaurantData = snapshot.data!;
 
             return Container(
@@ -93,8 +123,7 @@ class DetailRestaurant extends StatelessWidget {
                   DetailVoucherHeader(),
                   SizedBox(height: 24),
                   Expanded(
-                      child: _buildRecommendedMenu(context, restaurantData)
-                  ),
+                      child: _buildRecommendedMenu(context, restaurantData)),
                 ],
               ),
             );
@@ -190,10 +219,7 @@ class DetailRestaurant extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Text('Add',
-                style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 14
-                )),
+                style: TextStyle(color: Colors.green, fontSize: 14)),
           ),
           style: TextButton.styleFrom(
             primary: Colors.green,

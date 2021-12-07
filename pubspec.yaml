@@ -48,6 +48,10 @@ flutter:
 
   assets:
     - assets/restaurant.json
+    - assets/image/electric_bike.png
+    - assets/image/food_delivery.png
+    - assets/image/voucher.png
+    - assets/image/discount.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

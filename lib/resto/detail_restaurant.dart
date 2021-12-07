@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/detail_merchant_repository.dart';
 import 'package:restaurant_app/helper/restaurant_constant.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
+import 'detail_restaurant_header.dart';
+import 'detail_restaurant_voucher_header.dart';
 
 class DetailRestaurant extends StatelessWidget {
   static const routeName = '/resto_detail';
@@ -47,6 +49,7 @@ class DetailRestaurant extends StatelessWidget {
             final restaurantData = snapshot.data!;
 
             return Container(
+              margin: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 0),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -80,22 +83,14 @@ class DetailRestaurant extends StatelessWidget {
                               )
                             ],
                           )),
-                      Expanded(
-                          flex: 1,
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                RestaurantConstant.imageBaseUrl + restaurantData.imageUrl,
-                                width: 20,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              )))
                     ],
                   ),
                   SizedBox(height: 8),
                   Container(
                     child: _restaurantRating(context, restaurantData.rating),
                   ),
+                  RestaurantHeader(),
+                  DetailVoucherHeader(),
                   SizedBox(height: 24),
                   Expanded(
                       child: _buildRecommendedMenu(context, restaurantData)

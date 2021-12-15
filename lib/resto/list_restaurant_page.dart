@@ -37,7 +37,8 @@ class ListRestaurantPage extends StatelessWidget {
                   return _buildRestaurantItem(context, data![index]);
                 });
           }
-          return const CircularProgressIndicator();
+          return const Center(
+              child: CircularProgressIndicator());
         },
       ),
     );

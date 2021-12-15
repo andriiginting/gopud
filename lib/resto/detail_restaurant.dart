@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/detail_merchant_repository.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
+import 'package:restaurant_app/resto/components/detail_restaurant_title.dart';
 
-import 'detail_restaurant_header.dart';
-import 'detail_restaurant_voucher_header.dart';
+import 'components/detail_restaurant_header.dart';
+import 'components/detail_restaurant_voucher_header.dart';
 
 class DetailRestaurant extends StatelessWidget {
   static const routeName = '/resto_detail';
@@ -82,43 +83,8 @@ class DetailRestaurant extends StatelessWidget {
               margin: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 0),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Expanded(
-                          flex: 6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                restaurantData.name,
-                                maxLines: 1,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                ),
-                              ),
-                              Text(
-                                restaurantData.description,
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 10),
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
+                  RestaurantDetailTitle(restaurantData: restaurantData),
                   SizedBox(height: 8),
-                  Container(
-                    child: _restaurantRating(context, restaurantData.rating),
-                  ),
                   RestaurantHeader(),
                   DetailVoucherHeader(),
                   SizedBox(height: 24),

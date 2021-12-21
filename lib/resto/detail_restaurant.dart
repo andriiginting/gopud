@@ -6,7 +6,6 @@ import 'package:restaurant_app/resto/components/detail_restaurant_title.dart';
 
 import 'components/detail_restaurant_drinks_menu.dart';
 import 'components/detail_restaurant_header.dart';
-import 'components/detail_restaurant_menu.dart';
 import 'components/detail_restaurant_menu_v2.dart';
 import 'components/detail_restaurant_voucher_header.dart';
 
@@ -85,7 +84,8 @@ class DetailRestaurant extends StatelessWidget {
             return ListView(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
+              padding:
+                  EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
               children: [
                 RestaurantDetailTitle(restaurantData: restaurantData),
                 RestaurantHeader(),
@@ -98,12 +98,18 @@ class DetailRestaurant extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.red,
-          onPressed: () {},
-          label: Text("Menu"),
-          icon: Icon(Icons.microwave_sharp)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        height: 80.0,
+        width: 80.0,
+        child: FittedBox(
+          child: FloatingActionButton.extended(
+              backgroundColor: Colors.red,
+              onPressed: () {},
+              label: Text("Menu"),
+              icon: Icon(Icons.microwave_sharp)),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

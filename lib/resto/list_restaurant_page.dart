@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/resto_repository.dart';
@@ -37,8 +38,7 @@ class ListRestaurantPage extends StatelessWidget {
                   return _buildRestaurantItem(context, data![index]);
                 });
           }
-          return const Center(
-              child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -49,11 +49,14 @@ class ListRestaurantPage extends StatelessWidget {
       children: <Widget>[
         ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              RestaurantConstant.imageBaseUrl + data.imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: RestaurantConstant.imageBaseUrl + data.imageUrl,
               width: 100,
               height: 500,
               fit: BoxFit.cover,
+              placeholder: (context, url) =>
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ))
       ],
     );

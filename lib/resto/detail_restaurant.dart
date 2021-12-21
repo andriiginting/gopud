@@ -4,7 +4,10 @@ import 'package:restaurant_app/data/detail_merchant_repository.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
 import 'package:restaurant_app/resto/components/detail_restaurant_title.dart';
 
+import 'components/detail_restaurant_drinks_menu.dart';
 import 'components/detail_restaurant_header.dart';
+import 'components/detail_restaurant_menu.dart';
+import 'components/detail_restaurant_menu_v2.dart';
 import 'components/detail_restaurant_voucher_header.dart';
 
 class DetailRestaurant extends StatelessWidget {
@@ -79,19 +82,17 @@ class DetailRestaurant extends StatelessWidget {
           } else if (snapshot.hasData) {
             final restaurantData = snapshot.data!;
 
-            return Container(
-              margin: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 0),
-              child: Column(
-                children: <Widget>[
-                  RestaurantDetailTitle(restaurantData: restaurantData),
-                  SizedBox(height: 8),
-                  RestaurantHeader(),
-                  DetailVoucherHeader(),
-                  SizedBox(height: 24),
-                  Expanded(
-                      child: _buildRecommendedMenu(context, restaurantData)),
-                ],
-              ),
+            return ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
+              children: [
+                RestaurantDetailTitle(restaurantData: restaurantData),
+                RestaurantHeader(),
+                DetailVoucherHeader(),
+                DetailRestaurantFoodMenuV2(menus: restaurantData.menu),
+                DetailRestaurantDrinksMenu(menus: restaurantData.menu),
+              ],
             );
           }
           return const Center(child: CircularProgressIndicator());
@@ -104,22 +105,6 @@ class DetailRestaurant extends StatelessWidget {
           icon: Icon(Icons.microwave_sharp)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  Widget _buildRecommendedMenu(BuildContext context, RestaurantModelV2 data) {
-    return GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-        children: data.menu.foods
-            .map((food) => GestureDetector(
-                  onTap: () {},
-                  child: _getGridMenuItem(context, food.name),
-                ))
-            .toList()
-              ..addAll(data.menu.drinks.map((drink) => GestureDetector(
-                  onTap: () {},
-                  child: _getGridMenuItem(context, drink.name)))));
   }
 
   Widget _restaurantRating(BuildContext context, num rating) {
@@ -142,64 +127,5 @@ class DetailRestaurant extends StatelessWidget {
         )
       ],
     ));
-  }
-
-  Widget _getGridMenuItem(BuildContext context, String food) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-            flex: 6,
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      "https://source.unsplash.com/300x300/?foods",
-                      //temporary images
-                      width: 170,
-                      height: 170,
-                      fit: BoxFit.cover,
-                    )),
-                Container(
-                  child: TextButton(
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.black26,
-                      size: 16,
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all(const CircleBorder())),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            )),
-        Expanded(
-            flex: 1,
-            child: Text(food,
-                style: TextStyle(fontWeight: FontWeight.bold), maxLines: 1)),
-        TextButton(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Text('Add',
-                style: TextStyle(color: Colors.green, fontSize: 14)),
-          ),
-          style: TextButton.styleFrom(
-            primary: Colors.green,
-            onSurface: Colors.yellow,
-            fixedSize: const Size.fromWidth(double.maxFinite),
-            side: BorderSide(color: Colors.green),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-          ),
-          onPressed: () {
-            print('Pressed');
-          },
-        ),
-      ],
-    );
   }
 }

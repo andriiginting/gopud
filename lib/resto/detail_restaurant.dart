@@ -7,14 +7,17 @@ import 'package:restaurant_app/resto/components/detail_restaurant_title.dart';
 import 'components/detail_restaurant_drinks_menu.dart';
 import 'components/detail_restaurant_header.dart';
 import 'components/detail_restaurant_menu_v2.dart';
+import 'components/detail_restaurant_payment_info.dart';
 import 'components/detail_restaurant_voucher_header.dart';
 
 class DetailRestaurant extends StatelessWidget {
   static const routeName = '/resto_detail';
   final String merchantId;
+  final String restaurantName;
   final MerchantDetailRepository repository = MerchantDetailRepository();
 
-  DetailRestaurant({Key? key, required this.merchantId});
+  DetailRestaurant(
+      {Key? key, required this.merchantId, required this.restaurantName});
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +93,7 @@ class DetailRestaurant extends StatelessWidget {
                 RestaurantDetailTitle(restaurantData: restaurantData),
                 RestaurantHeader(),
                 DetailVoucherHeader(),
+                DetailRestaurantPaymentInfo(restaurantName: restaurantName),
                 DetailRestaurantFoodMenuV2(menus: restaurantData.menu),
                 DetailRestaurantDrinksMenu(menus: restaurantData.menu),
               ],

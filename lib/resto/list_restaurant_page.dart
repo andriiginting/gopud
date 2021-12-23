@@ -80,7 +80,10 @@ class ListRestaurantPage extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DetailRestaurant(merchantId: data.id)));
+                builder: (context) => DetailRestaurant(
+                      merchantId: data.id,
+                      restaurantName: data.name,
+                    )));
       },
     );
   }

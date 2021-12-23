@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
@@ -11,17 +12,23 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: _getMenuItem(context, menus.drinks[index].name),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemCount: menus.drinks.length);
+    return Column(
+      children: [
+        _menuHeader(context),
+        ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: _getMenuItem(context, menus.drinks[index].name),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+            itemCount: menus.drinks.length)
+      ],
+    );
   }
 
   Widget _getMenuItem(BuildContext context, String menu) {
@@ -106,6 +113,30 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
                 placeholder: (context, url) =>
                     const Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error)))
+      ],
+    );
+  }
+
+  Widget _menuHeader(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        Text(
+          "Drinks",
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        DottedLine(
+          lineThickness: 0.2,
+          dashColor: Colors.grey,
+        ),
+        SizedBox(height: 16)
       ],
     );
   }

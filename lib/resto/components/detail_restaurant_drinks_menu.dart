@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
 
+import 'detail_restaurant_favorite.dart';
+
 class DetailRestaurantDrinksMenu extends StatelessWidget {
   final RestaurantMenu menus;
 
@@ -69,11 +71,7 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(
-              Icons.favorite,
-              color: Colors.grey,
-              size: 20.0,
-            ),
+            DetailRestaurantFavorite(),
             Container(
                 margin: EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
                 alignment: Alignment.centerRight,

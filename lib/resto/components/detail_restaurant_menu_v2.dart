@@ -3,6 +3,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
+import 'package:restaurant_app/resto/components/detail_restaurant_favorite.dart';
 
 class DetailRestaurantFoodMenuV2 extends StatelessWidget {
   final RestaurantMenu menus;
@@ -70,11 +71,7 @@ class DetailRestaurantFoodMenuV2 extends StatelessWidget {
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(
-              Icons.favorite,
-              color: Colors.grey,
-              size: 20.0,
-            ),
+            DetailRestaurantFavorite(),
             Container(
                 margin: EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
                 alignment: Alignment.centerRight,

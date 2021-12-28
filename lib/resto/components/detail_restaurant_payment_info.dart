@@ -9,9 +9,8 @@ class DetailRestaurantPaymentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 16),
-      child: Column(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
         children: [
           LinearProgressIndicator(
             color: Colors.redAccent,
@@ -46,8 +45,7 @@ class DetailRestaurantPaymentInfo extends StatelessWidget {
           ),
           _paymentInfoButton(context, restaurantName)
         ],
-      ),
-    );
+      );
   }
 
   Widget _paymentInfoButton(BuildContext context, String restaurantName) {

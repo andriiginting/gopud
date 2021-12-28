@@ -93,7 +93,6 @@ class DetailRestaurant extends StatelessWidget {
                 RestaurantDetailTitle(restaurantData: restaurantData),
                 RestaurantHeader(),
                 DetailVoucherHeader(),
-                DetailRestaurantPaymentInfo(restaurantName: restaurantName),
                 DetailRestaurantFoodMenuV2(menus: restaurantData.menu),
                 DetailRestaurantDrinksMenu(menus: restaurantData.menu),
               ],
@@ -102,40 +101,31 @@ class DetailRestaurant extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      floatingActionButton: SizedBox(
-        height: 80.0,
-        width: 80.0,
-        child: FittedBox(
-          child: FloatingActionButton.extended(
-              backgroundColor: Colors.red,
-              onPressed: () {},
-              label: Text("Menu"),
-              icon: Icon(Icons.microwave_sharp)),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _floatingMenuWidget(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  Widget _restaurantRating(BuildContext context, num rating) {
-    return Container(
-        child: Row(
-      children: <Widget>[
-        Icon(
-          Icons.star_rate,
-          size: 12,
-          color: Colors.orange,
-        ),
-        Text(
-          "$rating",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 10,
-            color: Colors.black,
-          ),
-        )
+  Widget _paymentInfoWidget(BuildContext context) {
+    return Column(
+      children: [
+        _floatingMenuWidget(context),
+        DetailRestaurantPaymentInfo(restaurantName: restaurantName),
       ],
-    ));
+    );
+  }
+
+  Widget _floatingMenuWidget(BuildContext context) {
+    return SizedBox(
+      height: 80.0,
+      width: 80.0,
+      child: FittedBox(
+        child: FloatingActionButton.extended(
+            backgroundColor: Colors.red,
+            onPressed: () {},
+            label: Text("Menu"),
+            icon: Icon(Icons.microwave_sharp)),
+      ),
+    );
   }
 }

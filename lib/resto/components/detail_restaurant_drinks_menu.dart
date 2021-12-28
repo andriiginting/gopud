@@ -27,7 +27,11 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
               );
             },
             separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
+                const DottedLine(
+                  lineThickness: 0.2,
+                  dashColor: Colors.grey,
+
+                ),
             itemCount: menus.drinks.length)
       ],
     );
@@ -37,7 +41,7 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
     return Column(
       children: [
         Container(
-            margin: EdgeInsets.only(left: 0, top: 5, right: 0, bottom: 0),
+            margin: EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 10),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

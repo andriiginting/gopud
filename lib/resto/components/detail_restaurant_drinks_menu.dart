@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/model/restaurant_model.dart';
 
+import 'detail_restaurant_add_counter.dart';
 import 'detail_restaurant_favorite.dart';
 
 class DetailRestaurantDrinksMenu extends StatelessWidget {
@@ -76,26 +77,7 @@ class DetailRestaurantDrinksMenu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             DetailRestaurantFavorite(),
-            Container(
-                margin: EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Text('Add',
-                        style: TextStyle(color: Colors.green, fontSize: 12)),
-                  ),
-                  style: TextButton.styleFrom(
-                    primary: Colors.green,
-                    onSurface: Colors.yellow,
-                    side: BorderSide(color: Colors.green),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                  ),
-                  onPressed: () {
-                    print('Pressed');
-                  },
-                ))
+            DetailRestaurantButtonCounter()
           ],
         ))
       ],

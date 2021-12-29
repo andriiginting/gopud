@@ -9,8 +9,10 @@ class DetailRestaurantPaymentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           LinearProgressIndicator(
             color: Colors.redAccent,
@@ -31,21 +33,22 @@ class DetailRestaurantPaymentInfo extends StatelessWidget {
                 ),
                 Expanded(
                     child: Text(
-                  "Wohoo! With certain payment methods at checkout, you'll have  up to 20k",
-                  textAlign: TextAlign.start,
-                  maxLines: 3,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    color: Colors.black54,
-                  ),
-                ))
+                      "Wohoo! With certain payment methods at checkout, you'll have  up to 20k",
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ))
               ],
             ),
           ),
           _paymentInfoButton(context, restaurantName)
         ],
-      );
+      ),
+    );
   }
 
   Widget _paymentInfoButton(BuildContext context, String restaurantName) {

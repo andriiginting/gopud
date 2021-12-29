@@ -84,35 +84,49 @@ class DetailRestaurant extends StatelessWidget {
           } else if (snapshot.hasData) {
             final restaurantData = snapshot.data!;
 
-            return ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding:
-                  EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
+            return Stack(
               children: [
-                RestaurantDetailTitle(restaurantData: restaurantData),
-                RestaurantHeader(),
-                DetailVoucherHeader(),
-                DetailRestaurantFoodMenuV2(menus: restaurantData.menu),
-                DetailRestaurantDrinksMenu(menus: restaurantData.menu),
+                ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding:
+                      EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
+                  children: [
+                    RestaurantDetailTitle(restaurantData: restaurantData),
+                    RestaurantHeader(),
+                    DetailVoucherHeader(),
+                    DetailRestaurantFoodMenuV2(menus: restaurantData.menu),
+                    DetailRestaurantDrinksMenu(menus: restaurantData.menu),
+                  ],
+                ),
+                _paymentInfoWidget(context)
               ],
             );
           }
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      floatingActionButton: _floatingMenuWidget(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: _floatingMenuWidget(context),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _paymentInfoWidget(BuildContext context) {
-    return Column(
-      children: [
-        _floatingMenuWidget(context),
-        DetailRestaurantPaymentInfo(restaurantName: restaurantName),
-      ],
-    );
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _floatingMenuWidget(context),
+            _checkoutInfoWidget(context, restaurantName),
+          ],
+        ));
+  }
+
+  Widget _checkoutInfoWidget(BuildContext context, String restaurantName) {
+    return Visibility(
+        visible: true,
+        child: DetailRestaurantPaymentInfo(restaurantName: restaurantName));
   }
 
   Widget _floatingMenuWidget(BuildContext context) {

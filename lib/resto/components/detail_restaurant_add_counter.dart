@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 class DetailRestaurantButtonCounter extends StatefulWidget {
@@ -11,6 +12,8 @@ class DetailRestaurantButtonCounter extends StatefulWidget {
 class _DetailRestaurantButtonCounterState
     extends State<DetailRestaurantButtonCounter> {
   int _counter = 0;
+  int _currentNoteLimit = 0;
+  int _noteMaxLimit = 200;
   String _notes = "";
 
   void add() {
@@ -28,6 +31,8 @@ class _DetailRestaurantButtonCounterState
   bool _hasOrder() => _counter > 0;
 
   bool _hasNotes() => _notes.isNotEmpty;
+
+  bool _isMoreThanNotesLimit() => _currentNoteLimit > 0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,7 @@ class _DetailRestaurantButtonCounterState
             add();
           },
           child: Container(
-            margin: EdgeInsets.only(right: 8, bottom: 16, top: 8),
+            margin: EdgeInsets.only(bottom: 16, top: 8),
             padding: EdgeInsets.only(left: 16, top: 4, right: 16, bottom: 4),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -115,7 +120,9 @@ class _DetailRestaurantButtonCounterState
 
   Widget _notesButton(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          _showNotesBottomSheet();
+        },
         child: Container(
           margin: EdgeInsets.all(8),
           padding: EdgeInsets.only(left: 8, top: 4, right: 8, bottom: 4),
@@ -142,5 +149,114 @@ class _DetailRestaurantButtonCounterState
             ],
           ),
         ));
+  }
+
+  void _showNotesBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        backgroundColor: Colors.white,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height - 50,
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16),
+                Text(
+                  "Add notes to your dish",
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16),
+                DottedLine(
+                  lineThickness: 0.2,
+                  dashColor: Colors.grey,
+                ),
+                _notesTextArea(context),
+                SizedBox(height: 16),
+                DottedLine(
+                  lineThickness: 0.2,
+                  dashColor: Colors.grey,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "$_currentNoteLimit/$_noteMaxLimit",
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    _saveNoteButton(context)
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget _saveNoteButton(BuildContext context) {
+    return Container(
+        alignment: Alignment.centerRight,
+        child: TextButton(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          style: TextButton.styleFrom(
+            backgroundColor:
+                _isMoreThanNotesLimit() ? Colors.green : Colors.grey,
+            side: BorderSide(
+                color: _isMoreThanNotesLimit() ? Colors.green : Colors.grey),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
+  }
+
+  Widget _notesTextArea(BuildContext context) {
+    return Container(
+      height: 200.0,
+      child: TextFormField(
+        onChanged: (value) {
+          setState(() {
+            _notes = value;
+            _currentNoteLimit = value.length;
+          });
+        },
+        maxLines: 7,
+        cursorColor: Colors.black87,
+        keyboardType: TextInputType.multiline,
+        decoration: new InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(bottom: 16, top: 16),
+            hintText: "Example: Make my food spicy!"
+        ),
+        initialValue: _hasNotes() ? _notes : "",
+      )
+    );
   }
 }
